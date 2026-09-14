@@ -1,0 +1,30 @@
+name: Quark Sign-in (Cookie)
+
+on:
+  schedule:
+    - cron: '0 1 * * *'
+    - cron: '0 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sign:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run sign-in script
+        env:
+          COOKIE_QUARK: ${{ secrets.COOKIE_QUARK }}
+        run: python checkIn_Quark_cookie.py
